@@ -10,11 +10,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.*;
 import androidx.recyclerview.widget.*;
+import androidx.viewpager2.widget.*;
 
 import com.example.shop_online.*;
 import com.example.shop_online.Adapter.*;
+import com.example.shop_online.Domain.*;
 import com.example.shop_online.ViewModel.*;
 import com.example.shop_online.databinding.*;
+
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
     // Dùng View Binding để truy cập các View trong layout activity_main.xml
@@ -37,6 +41,47 @@ public class MainActivity extends AppCompatActivity {
 
         // Gọi hàm khởi tạo danh mục
         initCategory();
+        // Gọi hàm khởi tạo Slider
+        initSlider();
+    }
+
+    // Hàm khởi tạo slider banner
+    private void initSlider() {
+        // Hiển thị thanh ProgressBar (vòng xoay) trong lúc đang tải dữ liệu banner
+        binding.progressBarSlider.setVisibility(View.VISIBLE);
+        // Gọi hàm loadBanner() trong ViewModel và quan sát dữ liệu trả về (LiveData)
+        viewModel.loadBanner().observeForever(bannerModels -> {
+            // Khi dữ liệu banner đã được tải và không rỗng
+            if(bannerModels != null && !bannerModels.isEmpty()){
+                // Gọi hàm banners() để hiển thị danh sách banner lên ViewPager2
+                banners(bannerModels);
+                // Ẩn ProgressBar khi dữ liệu đã tải xong
+                binding.progressBarSlider.setVisibility(View.GONE);
+            }
+        });
+        // Gọi lại hàm loadBanner() để thực thi việc tải dữ liệu (nếu cần)
+        viewModel.loadBanner();
+    }
+
+    // Hàm cấu hình và hiển thị banner trên ViewPager2
+    private void banners(ArrayList<BannerModel> bannerModels) {
+        // Gán adapter cho ViewPager2 để hiển thị danh sách banner
+        binding.viewPagerSlider.setAdapter(new SliderAdapter(bannerModels, binding.viewPagerSlider));
+        // Cho phép banner tràn ra ngoài phần khung ViewPager2 để tạo hiệu ứng nhìn liền mạch
+        binding.viewPagerSlider.setClipToPadding(false);
+        binding.viewPagerSlider.setClipChildren(false);
+        // Giữ sẵn 3 trang bên cạnh trong bộ nhớ để lướt mượt hơn
+        binding.viewPagerSlider.setOffscreenPageLimit(3);
+        // Tắt hiệu ứng cuộn vượt giới hạn (giúp trải nghiệm lướt mượt mà hơn)
+        binding.viewPagerSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+        // Tạo đối tượng PageTransformer để thêm hiệu ứng khi chuyển trang
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+        // Thêm khoảng cách giữa các banner
+        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
+
+        // Gán transformer này cho ViewPager2 để hiển thị hiệu ứng
+        binding.viewPagerSlider.setPageTransformer(compositePageTransformer);
     }
 
     // Hàm này khởi tạo RecyclerView để hiển thị danh sách Category

@@ -50,4 +50,40 @@ public class MainRespository {
         // 🔹 Trả về đối tượng LiveData để ViewModel có thể quan sát dữ liệu này
         return listData;
     }
+
+
+    public LiveData<ArrayList<BannerModel>> loadBanner(){
+        // MutableLiveData cho phép ta cập nhật dữ liệu (setValue)
+        MutableLiveData<ArrayList<BannerModel>> listData = new MutableLiveData<>();
+
+        // 🔹 Tham chiếu đến nhánh "Banner" trong Firebase Realtime Database
+        DatabaseReference ref = firebaseDatabase.getReference("Banner");
+
+        // 🔹 Lắng nghe dữ liệu thay đổi tại node "Banner"
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Tạo danh sách tạm để chứa dữ liệu Banner lấy về
+                ArrayList<BannerModel> list = new ArrayList<>();
+
+                // Duyệt qua từng "con" của node "Banner"
+                for(DataSnapshot childSnapshot : snapshot.getChildren()){
+                    // Parse dữ liệu từng node thành đối tượng BannerModel
+                    BannerModel item = childSnapshot.getValue(BannerModel.class);
+                    // Nếu không null thì thêm vào danh sách
+                    if(item != null) list.add(item);
+                }
+                // Cập nhật dữ liệu vào LiveData → tự động thông báo đến ViewModel/UI
+                listData.setValue(list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Trường hợp đọc dữ liệu bị lỗi (ví dụ: quyền truy cập, mạng yếu,...)
+                // Có thể log lỗi hoặc xử lý thông báo cho người dùng ở đây
+            }
+        });
+        // 🔹 Trả về đối tượng LiveData để ViewModel có thể quan sát dữ liệu này
+        return listData;
+    }
 }
