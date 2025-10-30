@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "649207871081",
+    "project_id": "onlineshop1-19236",
+    "storage_bucket": "onlineshop1-19236.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649207871081:android:8936a4c57acbf49f56d4f8",
+        "android_client_info": {
+          "package_name": "com.example.shop_online"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOifbIPUaOJFNwpe0CajAuPLM3ajmM3es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
