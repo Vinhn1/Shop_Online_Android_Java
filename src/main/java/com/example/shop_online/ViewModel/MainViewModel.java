@@ -14,6 +14,7 @@ public class MainViewModel   extends ViewModel {
     // final nghĩa là biến này chỉ được gán một lần duy nhất
     private final MainRespository respository = new MainRespository();
 
+    // ==============================================================================
     // Hàm loadCategory() dùng để lấy danh sách danh mục (Category)
     // Trả về LiveData - để Activity/Fragment có thể "quan sát" dữ liệu này
     // Khi dữ liệu thay đổi (Firebase trả về mới), giao diện sẽ tự động cập nhật
@@ -22,7 +23,14 @@ public class MainViewModel   extends ViewModel {
         return respository.loadCategory();
     }
 
+    // ==============================================================================
     public LiveData<ArrayList<BannerModel>> loadBanner(){
         return  respository.loadBanner();
+    }
+
+    // ==============================================================================
+
+    public LiveData<ArrayList<ItemsModel>> loadPopular(){
+        return respository.loadPopular();
     }
 }
