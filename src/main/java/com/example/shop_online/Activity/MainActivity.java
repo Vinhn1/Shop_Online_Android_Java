@@ -1,5 +1,7 @@
 package com.example.shop_online.Activity;
 
+import static com.example.shop_online.R.*;
+
 import android.os.Bundle;
 import android.view.*;
 
@@ -15,8 +17,10 @@ import androidx.viewpager2.widget.*;
 import com.example.shop_online.*;
 import com.example.shop_online.Adapter.*;
 import com.example.shop_online.Domain.*;
+import com.example.shop_online.R;
 import com.example.shop_online.ViewModel.*;
 import com.example.shop_online.databinding.*;
+import com.ismaeldivita.chipnavigation.*;
 
 import java.util.*;
 
@@ -44,6 +48,17 @@ public class MainActivity extends AppCompatActivity {
         // Gọi hàm khởi tạo Slider
         initSlider();
         initPopular();
+        bottomNavigation();
+    }
+
+    private void bottomNavigation() {
+        binding.bottomNavigation.setItemSelected(R.id.home, true);
+        binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i) {
+
+            }
+        });
     }
 
     private void initPopular() {
