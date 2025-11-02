@@ -34,7 +34,7 @@ public class PicListAdapter extends RecyclerView.Adapter<PicListAdapter.Viewhold
     @Override
     public void onBindViewHolder(@NonNull PicListAdapter.Viewholder holder, int position) {
         Glide.with(context)
-                .load(holder.binding.pic)
+                .load(items.get(position))
                 .into(holder.binding.pic);
         holder.binding.getRoot().setOnClickListener(v -> Glide.with(context)
                 .load(items.get(position))

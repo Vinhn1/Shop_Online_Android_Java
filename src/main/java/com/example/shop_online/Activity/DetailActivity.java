@@ -40,7 +40,18 @@ public class DetailActivity extends AppCompatActivity {
         managmentCart = new ManagmentCart(this);
         getBundles();
         initPicList();
+        initSize();
+        initColors();
+    }
 
+    private void initColors() {
+        binding.recyclerColor.setAdapter(new ColorAdapter(object.getColor()));
+        binding.recyclerColor.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+    }
+
+    private void initSize() {
+        binding.recyclerSize.setAdapter(new SizeApdapter(object.getSize()));
+        binding.recyclerSize.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
     }
 
     private void initPicList() {
