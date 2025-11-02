@@ -2,6 +2,7 @@ package com.example.shop_online.Activity;
 
 import static com.example.shop_online.R.*;
 
+import android.content.*;
 import android.os.Bundle;
 import android.view.*;
 
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
     private void initPopular() {
